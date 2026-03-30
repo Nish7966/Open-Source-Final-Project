@@ -1,19 +1,23 @@
-import { PostModel } from "../infrastructure/database/models/Post";
+import Post from "../domain/Post";
 
-export const createPostService = async (title: string, content: string, userId: string) => {
-  const post = new PostModel({ title, content, userId });
-  return await post.save();
+export const createPostService = async (
+  title: string,
+  content: string,
+  userId: string,
+) => {
+  return await Post.create({ title, content, user: userId });
 };
 
 export const getPostsService = async () => {
-  return await PostModel.find().sort({ createdAt: -1 });
+  return await Post.find().populate("user", "name");
 };
 
 export const likePostService = async (postId: string, userId: string) => {
-  const post = await PostModel.findById(postId);
-
+  const post = await Post.findById(postId);
   if (!post) throw new Error("Post not found");
 
-  // simple like logic (you can improve later)
+  post.likes.push(userId);
+  await post.save();
+
   return post;
 };

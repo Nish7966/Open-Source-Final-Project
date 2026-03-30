@@ -1,10 +1,16 @@
-
-
 import { Request, Response } from "express";
-import { createPostService, getPostsService, likePostService } from "../../application/postService";
+import {
+  createPostService,
+  getPostsService,
+  likePostService,
+} from "../../application/postService";
 
 export const createPost = async (req: any, res: Response) => {
-  const post = await createPostService(req.body.title, req.body.content, req.user.id);
+  const post = await createPostService(
+    req.body.title,
+    req.body.content,
+    req.user.id,
+  );
   res.json(post);
 };
 
