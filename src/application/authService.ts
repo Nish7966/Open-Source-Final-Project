@@ -10,7 +10,13 @@ export const registerUser = async (
   password: string,
 ) => {
   const hashed = await bcrypt.hash(password, 10);
-  return await User.create({ name, email, password: hashed });
+
+  return await User.create({
+    name,
+    email,
+    password: hashed,
+    role: "user", 
+  });
 };
 
 export const loginUser = async (email: string, password: string) => {
