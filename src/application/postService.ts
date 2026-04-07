@@ -1,4 +1,5 @@
 import Post from "../domain/Post";
+import mongoose from "mongoose";
 
 export const createPostService = async (
   title: string,
@@ -15,8 +16,8 @@ export const getPostsService = async () => {
 export const likePostService = async (postId: string, userId: string) => {
   const post = await Post.findById(postId);
   if (!post) throw new Error("Post not found");
-
-  post.likes.push(userId);
+  
+post.likes.push(new mongoose.Types.ObjectId(userId));
   await post.save();
 
   return post;
