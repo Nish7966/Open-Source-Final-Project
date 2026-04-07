@@ -4,6 +4,7 @@ import {
   getPosts,
   likePost,
   editPost, 
+  deletePost,
 } from "../controllers/postController";
 import { authMiddleware } from "../middleware/authMiddleware";
 
@@ -13,6 +14,7 @@ router.get("/", getPosts);
 
 router.post("/", authMiddleware, createPost);
 router.post("/:id/like", authMiddleware, likePost);
-router.put("/:id", authMiddleware, editPost); // ✅ NEW EDIT ROUTE
+router.put("/:id", authMiddleware, editPost); 
+router.delete("/:id", authMiddleware, deletePost);
 
 export default router;

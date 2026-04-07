@@ -4,6 +4,7 @@ import {
   getPostsService,
   likePostService,
   editPostService,
+  deletePostService,
 } from "../../application/postService";
 
 
@@ -48,6 +49,18 @@ export const editPost = async (req: any, res: Response) => {
       req.body.content
     );
     res.json(post);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+export const deletePost = async (req: any, res: Response) => {
+  try {
+    const result = await deletePostService(
+      req.params.id,
+      req.user.id
+    );
+    res.json(result);
   } catch (err: any) {
     res.status(400).json({ message: err.message });
   }

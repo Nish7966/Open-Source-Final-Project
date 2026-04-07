@@ -46,11 +46,28 @@ export const editPostService = async (
   throw new Error("Not authorized to edit this post");
 }
 
-  // ✏️ Update fields (only if provided)
+ 
   if (title) post.title = title;
   if (content) post.content = content;
 
   await post.save();
 
   return post;
+};
+
+export const deletePostService = async (
+  postId: string,
+  userId: string
+) => {
+  const post = await Post.findById(postId);
+  if (!post) throw new Error("Post not found");
+
+  const postUserId = post.user?.toString();
+  if (!postUserId || postUserId !== userId) {
+    throw new Error("Not authorized to delete this post");
+  }
+
+  await post.deleteOne();
+
+  return { message: "Post deleted successfully" };
 };
