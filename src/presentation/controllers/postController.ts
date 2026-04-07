@@ -20,6 +20,10 @@ export const getPosts = async (req: Request, res: Response) => {
 };
 
 export const likePost = async (req: any, res: Response) => {
-  const post = await likePostService(req.params.id, req.user.id);
-  res.json(post);
+  try {
+    const post = await likePostService(req.params.id, req.user.id);
+    res.json(post);
+  } catch (err: any) {
+    res.status(400).json({ message: err.message });
+  }
 };
