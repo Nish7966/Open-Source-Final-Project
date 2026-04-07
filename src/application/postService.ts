@@ -32,3 +32,25 @@ export const likePostService = async (postId: string, userId: string) => {
 
   return post;
 };
+export const editPostService = async (
+  postId: string,
+  userId: string,
+  title: string,
+  content: string
+) => {
+  const post = await Post.findById(postId);
+  if (!post) throw new Error("Post not found");
+
+
+  if (!post.user || post.user.toString() !== userId) {
+  throw new Error("Not authorized to edit this post");
+}
+
+  // ✏️ Update fields (only if provided)
+  if (title) post.title = title;
+  if (content) post.content = content;
+
+  await post.save();
+
+  return post;
+};
