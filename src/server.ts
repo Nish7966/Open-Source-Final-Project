@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import postRoutes from "./presentation/routes/postRoutes";
 import authRoutes from "./presentation/routes/authRoutes";
 import commentRoutes from "./presentation/routes/commentRoutes";
+import adminRoutes from "./presentation/routes/adminRoutes";
 dotenv.config();
 
 const app = express();
@@ -15,6 +16,8 @@ app.use(express.json());
 app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/admin", adminRoutes);
+
 
 app.get("/", (req, res) => {
   res.send("Forum Backend Running");
