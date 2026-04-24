@@ -1,11 +1,24 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
 
+import express from "express";
+import mongoose from "mongoose";
+
+import postRoutes from "./presentation/routes/postRoutes";
+import authRoutes from "./presentation/routes/authRoutes";
+import commentRoutes from "./presentation/routes/commentRoutes";
+import adminRoutes from "./presentation/routes/adminRoutes";
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
+
+// Routes
+app.use("/api/posts", postRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/comments", commentRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.send("Forum Backend Running");
@@ -13,6 +26,19 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI as string);
+    console.log("MongoDB connected");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("MongoDB connection failed:", error);
+  }
+};
+
+console.log("ENV TEST:", process.env.MONGO_URI);
+
+startServer();

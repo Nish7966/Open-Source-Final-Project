@@ -8,7 +8,12 @@ export const register = async (req: Request, res: Response) => {
       req.body.email,
       req.body.password,
     );
-    res.json(user);
+    res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
   } catch (err: any) {
     res.status(400).json({ msg: err.message });
   }
